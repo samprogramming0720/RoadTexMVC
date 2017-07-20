@@ -1,0 +1,52 @@
+﻿@model RoadTex_MVC_Project.Models.RolePermission_Model.RolePermissionModel
+@{
+    ViewBag.Title = "RolePermission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>ViewBag.Title</h2>
+@using (Html.BeginForm("RolePermission", "RolePermission", FormMethod.Post))
+{
+    <div>
+        <table border="1">
+            <tr>
+                <th colspan="2">RoleName</th>
+                @if (Model.ListOfPermission.Count > 0)
+                {
+                    for (int i = 0; i < Model.ListOfPermission.Count; i++)
+                    {
+                        <th>@Model.ListOfPermission[i].permission</th>
+                    }
+                }
+            </tr>
+            @if (Model.ListOfRoles.Count > 0)
+            {
+                for (int i = 0; i < Model.ListOfRoles.Count; i++)
+                {
+                    <tr>
+                        <th rowspan="2">@Model.ListOfRoles[i].role_name</th>
+                        <th>Edit</th>
+                        @if (Model.ListOfPermission.Count > 0)
+                        {
+                            for (int j = 0; j < Model.ListOfPermission.Count; j++)
+                            {
+                                <td rowspan="2">
+                                    @Html.HiddenFor(e => e.ListOfRoles[i].role_id)
+                                    @Html.HiddenFor(e => e.ListOfPermission[j].perm_id)
+                                    @Html.CheckBoxFor(e => e.RowEditCheckBox[i].ColEditCheckBox[j].IsEditChecked)
+                                    <br />
+                                    @Html.CheckBoxFor(e => e.RowViewCheckBox[i].ColViewCheckBox[j].IsViewChecked)
+                                </td>
+                            }
+                        }
+                    </tr>
+                    <tr>
+                        <th>View</th>
+                    </tr>
+                }
+            }
+        </table>
+        <div>
+            <button id="SaveBtn" type="submit">Save</button>
+        </div>
+    </div>
+}

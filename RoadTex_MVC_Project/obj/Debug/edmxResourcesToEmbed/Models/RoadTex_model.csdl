@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbRoadtexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblCustomer">
+    <Key>
+      <PropertyRef Name="customer_id" />
+    </Key>
+    <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customer_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contact_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="customer_status" Type="Boolean" Nullable="false" />
+    <Property Name="sales_rep" Type="Int32" Nullable="false" />
+    <Property Name="preparer" Type="Int32" Nullable="false" />
+    <Property Name="customer_priority" Type="Int32" />
+    <Property Name="follow_up_type" Type="Int32" />
+    <Property Name="follow_up_date" Type="DateTime" Precision="3" />
+    <Property Name="state_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK__tblCustom__prepa__21B6055D" FromRole="tblCustomer" ToRole="tblUsers" />
+    <NavigationProperty Name="tblUser1" Relationship="Self.FK__tblCustom__sales__20C1E124" FromRole="tblCustomer" ToRole="tblUsers" />
+    <NavigationProperty Name="tblState" Relationship="Self.FK__tblCustom__state__22AA2996" FromRole="tblCustomer" ToRole="tblState" />
+  </EntityType>
+  <EntityType Name="tblPermission">
+    <Key>
+      <PropertyRef Name="perm_id" />
+    </Key>
+    <Property Name="perm_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="permission" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="tblRole_Permission" Relationship="Self.FK__tblRole_P__perm___164452B1" FromRole="tblPermission" ToRole="tblRole_Permission" />
+  </EntityType>
+  <EntityType Name="tblRegion">
+    <Key>
+      <PropertyRef Name="region_id" />
+    </Key>
+    <Property Name="region_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="region_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="region_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblStates" Relationship="Self.FK__tblState__region__1DE57479" FromRole="tblRegion" ToRole="tblState" />
+  </EntityType>
+  <EntityType Name="tblRole">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="role_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="role_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblRole_Permission" Relationship="Self.FK__tblRole_P__role___15502E78" FromRole="tblRole" ToRole="tblRole_Permission" />
+    <NavigationProperty Name="tblUsers" Relationship="Self.FK__tblUsers__user_r__1920BF5C" FromRole="tblRole" ToRole="tblUsers" />
+  </EntityType>
+  <EntityType Name="tblRole_Permission">
+    <Key>
+      <PropertyRef Name="role_permission_id" />
+    </Key>
+    <Property Name="role_permission_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="role_id" Type="Int32" Nullable="false" />
+    <Property Name="perm_id" Type="Int32" Nullable="false" />
+    <Property Name="edit_perm" Type="Boolean" Nullable="false" />
+    <Property Name="view_perm" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="tblPermission" Relationship="Self.FK__tblRole_P__perm___164452B1" FromRole="tblRole_Permission" ToRole="tblPermission" />
+    <NavigationProperty Name="tblRole" Relationship="Self.FK__tblRole_P__role___15502E78" FromRole="tblRole_Permission" ToRole="tblRole" />
+  </EntityType>
+  <EntityType Name="tblState">
+    <Key>
+      <PropertyRef Name="state_id" />
+    </Key>
+    <Property Name="state_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="state_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="region_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tblCustomers" Relationship="Self.FK__tblCustom__state__22AA2996" FromRole="tblState" ToRole="tblCustomer" />
+    <NavigationProperty Name="tblRegion" Relationship="Self.FK__tblState__region__1DE57479" FromRole="tblState" ToRole="tblRegion" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="e_mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="user_role_id" Type="Int32" Nullable="false" />
+    <Property Name="isSalesRep" Type="Boolean" Nullable="false" />
+    <Property Name="isPreparer" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="tblCustomers" Relationship="Self.FK__tblCustom__prepa__21B6055D" FromRole="tblUsers" ToRole="tblCustomer" />
+    <NavigationProperty Name="tblCustomers1" Relationship="Self.FK__tblCustom__sales__20C1E124" FromRole="tblUsers" ToRole="tblCustomer" />
+    <NavigationProperty Name="tblRole" Relationship="Self.FK__tblUsers__user_r__1920BF5C" FromRole="tblUsers" ToRole="tblRole" />
+  </EntityType>
+  <Association Name="FK__tblCustom__prepa__21B6055D">
+    <End Role="tblUsers" Type="Self.tblUser" Multiplicity="1" />
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUsers">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="tblCustomer">
+        <PropertyRef Name="preparer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblCustom__sales__20C1E124">
+    <End Role="tblUsers" Type="Self.tblUser" Multiplicity="1" />
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUsers">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="tblCustomer">
+        <PropertyRef Name="sales_rep" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblCustom__state__22AA2996">
+    <End Role="tblState" Type="Self.tblState" Multiplicity="1" />
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblState">
+        <PropertyRef Name="state_id" />
+      </Principal>
+      <Dependent Role="tblCustomer">
+        <PropertyRef Name="state_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblRole_P__perm___164452B1">
+    <End Role="tblPermission" Type="Self.tblPermission" Multiplicity="1" />
+    <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPermission">
+        <PropertyRef Name="perm_id" />
+      </Principal>
+      <Dependent Role="tblRole_Permission">
+        <PropertyRef Name="perm_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblState__region__1DE57479">
+    <End Role="tblRegion" Type="Self.tblRegion" Multiplicity="1" />
+    <End Role="tblState" Type="Self.tblState" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRegion">
+        <PropertyRef Name="region_id" />
+      </Principal>
+      <Dependent Role="tblState">
+        <PropertyRef Name="region_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblRole_P__role___15502E78">
+    <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+    <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRole">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="tblRole_Permission">
+        <PropertyRef Name="role_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblUsers__user_r__1920BF5C">
+    <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+    <End Role="tblUsers" Type="Self.tblUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRole">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="tblUsers">
+        <PropertyRef Name="user_role_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbRoadtexEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
+    <EntitySet Name="tblPermissions" EntityType="Self.tblPermission" />
+    <EntitySet Name="tblRegions" EntityType="Self.tblRegion" />
+    <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+    <EntitySet Name="tblRole_Permission" EntityType="Self.tblRole_Permission" />
+    <EntitySet Name="tblStates" EntityType="Self.tblState" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+    <AssociationSet Name="FK__tblCustom__prepa__21B6055D" Association="Self.FK__tblCustom__prepa__21B6055D">
+      <End Role="tblUsers" EntitySet="tblUsers" />
+      <End Role="tblCustomer" EntitySet="tblCustomers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblCustom__sales__20C1E124" Association="Self.FK__tblCustom__sales__20C1E124">
+      <End Role="tblUsers" EntitySet="tblUsers" />
+      <End Role="tblCustomer" EntitySet="tblCustomers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblCustom__state__22AA2996" Association="Self.FK__tblCustom__state__22AA2996">
+      <End Role="tblState" EntitySet="tblStates" />
+      <End Role="tblCustomer" EntitySet="tblCustomers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblRole_P__perm___164452B1" Association="Self.FK__tblRole_P__perm___164452B1">
+      <End Role="tblPermission" EntitySet="tblPermissions" />
+      <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblState__region__1DE57479" Association="Self.FK__tblState__region__1DE57479">
+      <End Role="tblRegion" EntitySet="tblRegions" />
+      <End Role="tblState" EntitySet="tblStates" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblRole_P__role___15502E78" Association="Self.FK__tblRole_P__role___15502E78">
+      <End Role="tblRole" EntitySet="tblRoles" />
+      <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblUsers__user_r__1920BF5C" Association="Self.FK__tblUsers__user_r__1920BF5C">
+      <End Role="tblRole" EntitySet="tblRoles" />
+      <End Role="tblUsers" EntitySet="tblUsers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

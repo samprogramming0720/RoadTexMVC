@@ -1,0 +1,1 @@
+C:\Users\seriskale\Documents\Visual Studio 2017\Projects\RoadTex_MVC_Project\RoadTex_MVC_Project.Tests\obj\Debug\RoadTex_MVC_Project.Tests.csprojResolveAssemblyReference.cache

@@ -1,0 +1,43 @@
+﻿@model RoadTex_MVC_Project.Models.Permission_Model.PermissionModel
+
+@{
+    ViewBag.Title = "Permission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.Title</h2>
+@section scripts {
+    <script src="@Url.Content("~/Scripts/Permission.js")"></script>
+}
+<div>
+    @if (Model.ListOfPermissions.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>@Html.LabelFor(e => e.PermissionDescription)</th>
+                <th colspan="2">Action</th>
+            </tr>
+            @foreach (var item in Model.ListOfPermissions)
+            {
+                <tr>
+                    <td>
+                        <span id="perm_span" class="display-mode">@item.permission</span>
+                        @Html.TextBox("perm_textbox", @item.permission, new { @class= "edit-mode" })
+                    </td>
+                    <td>
+                        <button class="edit-permission display-mode" id="@item.perm_id">Edit</button>
+                        <button class="update-permission edit-mode" id="@item.perm_id">Update</button>
+                    </td>
+                    <td>
+                        <button class="delete-permission display-mode" id="@item.perm_id">Delete</button>
+                        <button class="cancel edit-mode">Cancel</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+<div>
+    <button id="CreateBtn">Create</button>
+</div>
+
+<div id="AppendPartial"></div>

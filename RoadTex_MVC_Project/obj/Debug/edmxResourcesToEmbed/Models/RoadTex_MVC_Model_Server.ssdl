@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RoadTex_MVC_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblCustomer">
+    <Key>
+      <PropertyRef Name="customer_id" />
+    </Key>
+    <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="customer_name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="contact_name" Type="varchar" MaxLength="50" />
+    <Property Name="customer_status" Type="bit" Nullable="false" />
+    <Property Name="sales_rep" Type="int" Nullable="false" />
+    <Property Name="preparer" Type="int" Nullable="false" />
+    <Property Name="customer_priority" Type="int" />
+    <Property Name="follow_up_type" Type="int" />
+    <Property Name="follow_up_date" Type="datetime" />
+    <Property Name="state_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblPermission">
+    <Key>
+      <PropertyRef Name="perm_id" />
+    </Key>
+    <Property Name="perm_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="permission" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblRegion">
+    <Key>
+      <PropertyRef Name="region_id" />
+    </Key>
+    <Property Name="region_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="region_name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="region_description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="tblRole">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Name="role_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="role_name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblRole_Permission">
+    <Key>
+      <PropertyRef Name="role_permission_id" />
+    </Key>
+    <Property Name="role_permission_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="role_id" Type="int" Nullable="false" />
+    <Property Name="perm_id" Type="int" Nullable="false" />
+    <Property Name="edit_perm" Type="bit" Nullable="false" />
+    <Property Name="view_perm" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblState">
+    <Key>
+      <PropertyRef Name="state_id" />
+    </Key>
+    <Property Name="state_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="state_name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="region_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblUsers">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="first_name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="last_name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="e_mail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="user_role_id" Type="int" Nullable="false" />
+    <Property Name="isSalesRep" Type="bit" Nullable="false" />
+    <Property Name="isPreparer" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__tblCustom__prepa__24927208">
+    <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUsers">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="tblCustomer">
+        <PropertyRef Name="preparer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblCustom__sales__239E4DCF">
+    <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUsers">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="tblCustomer">
+        <PropertyRef Name="sales_rep" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblCustom__state__25869641">
+    <End Role="tblState" Type="Self.tblState" Multiplicity="1" />
+    <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblState">
+        <PropertyRef Name="state_id" />
+      </Principal>
+      <Dependent Role="tblCustomer">
+        <PropertyRef Name="state_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblRole_P__perm___164452B1">
+    <End Role="tblPermission" Type="Self.tblPermission" Multiplicity="1" />
+    <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPermission">
+        <PropertyRef Name="perm_id" />
+      </Principal>
+      <Dependent Role="tblRole_Permission">
+        <PropertyRef Name="perm_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblRole_P__role___15502E78">
+    <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+    <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRole">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="tblRole_Permission">
+        <PropertyRef Name="role_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblState__region__20C1E124">
+    <End Role="tblRegion" Type="Self.tblRegion" Multiplicity="1" />
+    <End Role="tblState" Type="Self.tblState" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRegion">
+        <PropertyRef Name="region_id" />
+      </Principal>
+      <Dependent Role="tblState">
+        <PropertyRef Name="region_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblUsers__user_r__1B0907CE">
+    <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+    <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRole">
+        <PropertyRef Name="role_id" />
+      </Principal>
+      <Dependent Role="tblUsers">
+        <PropertyRef Name="user_role_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="sp_AddNewRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="roleName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_AddRegion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="regionName" Type="nvarchar" Mode="In" />
+    <Parameter Name="regionDescription" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_AddState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="stateName" Type="nvarchar" Mode="In" />
+    <Parameter Name="regionId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_cm_create_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="customer_name" Type="varchar" Mode="In" />
+    <Parameter Name="contact_name" Type="varchar" Mode="In" />
+    <Parameter Name="customer_status" Type="bit" Mode="In" />
+    <Parameter Name="sales_rep" Type="int" Mode="In" />
+    <Parameter Name="preparer" Type="int" Mode="In" />
+    <Parameter Name="customer_priority" Type="int" Mode="In" />
+    <Parameter Name="follow_up_type" Type="int" Mode="In" />
+    <Parameter Name="follow_up_date" Type="datetime" Mode="In" />
+    <Parameter Name="state_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_cm_delete_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="customer_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_cm_select_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="customer_name" Type="nvarchar" Mode="In" />
+    <Parameter Name="contact_name" Type="nvarchar" Mode="In" />
+    <Parameter Name="sales_rep" Type="int" Mode="In" />
+    <Parameter Name="preparer" Type="int" Mode="In" />
+    <Parameter Name="status" Type="int" Mode="In" />
+    <Parameter Name="follow_up_type" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_cm_update_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="customer_name" Type="varchar" Mode="In" />
+    <Parameter Name="contact_name" Type="varchar" Mode="In" />
+    <Parameter Name="customer_status" Type="bit" Mode="In" />
+    <Parameter Name="sales_rep" Type="int" Mode="In" />
+    <Parameter Name="preparer" Type="int" Mode="In" />
+    <Parameter Name="customer_priority" Type="int" Mode="In" />
+    <Parameter Name="follow_up_type" Type="int" Mode="In" />
+    <Parameter Name="follow_up_date" Type="datetime" Mode="In" />
+    <Parameter Name="state_id" Type="int" Mode="In" />
+    <Parameter Name="customer_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_DeleteRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="roleName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_DeleteState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="stateName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_GetCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_getRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Role" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_p_create_permission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="permission" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_ResetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="emailAdd" Type="varchar" Mode="In" />
+    <Parameter Name="confirmPass" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_rp_create_roleperm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="role_id" Type="int" Mode="In" />
+    <Parameter Name="perm_id" Type="int" Mode="In" />
+    <Parameter Name="edit_perm" Type="bit" Mode="In" />
+    <Parameter Name="view_perm" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="sp_rp_select_roleperm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="role_id" Type="int" Mode="In" />
+    <Parameter Name="perm_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Search" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="searchParam" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_SelectStates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_um_create_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FirstName" Type="varchar" Mode="In" />
+    <Parameter Name="LastName" Type="varchar" Mode="In" />
+    <Parameter Name="Email" Type="varchar" Mode="In" />
+    <Parameter Name="Password" Type="varchar" Mode="In" />
+    <Parameter Name="RoleID" Type="int" Mode="In" />
+    <Parameter Name="IsSalesRep" Type="bit" Mode="In" />
+    <Parameter Name="IsPreparer" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="sp_um_delete_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_um_select_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_um_update_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="first_name" Type="varchar" Mode="In" />
+    <Parameter Name="last_name" Type="varchar" Mode="In" />
+    <Parameter Name="e_mail" Type="varchar" Mode="In" />
+    <Parameter Name="user_role_id" Type="int" Mode="In" />
+    <Parameter Name="isSalesRep" Type="bit" Mode="In" />
+    <Parameter Name="isPreparer" Type="bit" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_UpdatedRow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_UpdateRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="newRoleName" Type="nvarchar" Mode="In" />
+    <Parameter Name="oldRoleName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_UpdateState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="stateId" Type="int" Mode="In" />
+    <Parameter Name="newStateName" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="RoadTex_MVC_ModelStoreContainer">
+    <EntitySet Name="tblCustomer" EntityType="Self.tblCustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPermission" EntityType="Self.tblPermission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblRegion" EntityType="Self.tblRegion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblRole_Permission" EntityType="Self.tblRole_Permission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblState" EntityType="Self.tblState" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__tblCustom__prepa__24927208" Association="Self.FK__tblCustom__prepa__24927208">
+      <End Role="tblUsers" EntitySet="tblUsers" />
+      <End Role="tblCustomer" EntitySet="tblCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblCustom__sales__239E4DCF" Association="Self.FK__tblCustom__sales__239E4DCF">
+      <End Role="tblUsers" EntitySet="tblUsers" />
+      <End Role="tblCustomer" EntitySet="tblCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblCustom__state__25869641" Association="Self.FK__tblCustom__state__25869641">
+      <End Role="tblState" EntitySet="tblState" />
+      <End Role="tblCustomer" EntitySet="tblCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblRole_P__perm___164452B1" Association="Self.FK__tblRole_P__perm___164452B1">
+      <End Role="tblPermission" EntitySet="tblPermission" />
+      <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblRole_P__role___15502E78" Association="Self.FK__tblRole_P__role___15502E78">
+      <End Role="tblRole" EntitySet="tblRole" />
+      <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblState__region__20C1E124" Association="Self.FK__tblState__region__20C1E124">
+      <End Role="tblRegion" EntitySet="tblRegion" />
+      <End Role="tblState" EntitySet="tblState" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblUsers__user_r__1B0907CE" Association="Self.FK__tblUsers__user_r__1B0907CE">
+      <End Role="tblRole" EntitySet="tblRole" />
+      <End Role="tblUsers" EntitySet="tblUsers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

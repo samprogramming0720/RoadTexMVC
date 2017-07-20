@@ -1,0 +1,27 @@
+﻿@model RoadTex_MVC_Project.Models.Login_Model.Credential
+@{
+    ViewBag.Title = "Login Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="container">
+        <div class="card card-container">
+            <form class="form-signin">
+                <span id="reauth-email" class="reauth-email"></span>
+                @Html.TextBoxFor(e => e.E_mail, new { @class = "form-control", placeholder = "Email address" })
+                @Html.PasswordFor(e => e.User_password, new { @class = "form-control", placeholder = "password" })
+                <div id="remember" class="checkbox">
+                    @Html.CheckBoxFor(e => e.RememberMe)
+                    @Html.LabelFor(e => e.RememberMe)
+                </div>
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+            </form><!-- /form -->
+                @Html.ActionLink("Forgot Password?", "forgotPassword", "Home", new { @class = "forgot-password" }, null)
+        </div>
+    </div>
+}

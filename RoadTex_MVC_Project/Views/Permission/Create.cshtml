@@ -1,0 +1,17 @@
+﻿@model RoadTex_MVC_Project.Models.Permission_Model.PermissionModel
+
+<div>
+    <div>
+        <span id="Error-message" class="text-danger"></span>
+    </div>
+    <div>
+        @Html.LabelFor(e => e.PermissionDescription)
+        @Html.TextBoxFor(e => e.PermissionDescription, new { @id = "Perm_DESC" })
+    </div>
+    <div>
+        <button id="SavePermBtn">Save</button>
+    </div>
+</div>
+<script type="text/javascript">
+    $.getScript("/Scripts/PermissionSave.js");
+</script> 

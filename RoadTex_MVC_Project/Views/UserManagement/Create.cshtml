@@ -1,0 +1,42 @@
+﻿@model RoadTex_MVC_Project.Models.UserManagement_Model.UMViewModel
+<div>
+    <div>
+        <span id="Error-message" class="text-danger"></span>
+    </div>
+    <div>
+        @Html.LabelFor(e => e.Createinfo.FirstName, new { @class = "um_label_style" })
+        @Html.TextBoxFor(e => e.Createinfo.FirstName, new { @id = "um_firstName_TBox" })
+    </div>
+    <div>
+        @Html.LabelFor(e => e.Createinfo.LastName, new { @class = "um_label_style" })
+        @Html.TextBoxFor(e => e.Createinfo.LastName, new { @id = "um_lastName_TBox" })
+    </div>
+    <div>
+        @Html.LabelFor(e => e.Createinfo.Email, new { @class = "um_label_style" })
+        @Html.TextBoxFor(e => e.Createinfo.Email, new { @id = "um_email_TBox" })
+    </div>
+    <div>
+        @Html.LabelFor(e => e.Createinfo.Password, new { @class = "um_label_style" })
+        @Html.PasswordFor(e => e.Createinfo.Password, new { @id = "um_password_TBox" })
+    </div>
+    <div>
+        @Html.LabelFor(e => e.Createinfo.Role, new { @class = "um_label_style" })
+        @Html.DropDownListFor(e => e.Createinfo.Role,
+        new SelectList(Model.RolesList, "Value", "Text"),
+        "Please select role", new { @id = "um_role_selector" })
+    </div>
+    <div>
+        @Html.LabelFor(e => e.Createinfo.IsSalesRep, new { @class = "um_label_style" })
+        @Html.CheckBoxFor(e => e.Createinfo.IsSalesRep, new { @id = "um_sales_rep_checkbox" })
+    </div>
+    <div>
+        @Html.LabelFor(e => e.Createinfo.IsPreparer, new { @class = "um_label_style" })
+        @Html.CheckBoxFor(e => e.Createinfo.IsPreparer, new { @id = "um_preparer_checkbox" })
+    </div>
+    <div>
+        <button id="AddBtn" type="submit">Add</button>
+    </div>
+</div>
+<script type="text/javascript">
+    $.getScript("/Scripts/UserManagementSave.js");
+</script>

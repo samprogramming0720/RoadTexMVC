@@ -1,0 +1,86 @@
+﻿@model RoadTex_MVC_Project.Models.vmMasterData
+
+<div id="grid"></div>
+
+
+
+@{
+    var grid = new WebGrid(Model.States, canPage: true, rowsPerPage: 5, 
+    selectionFieldName: "selectedRow", ajaxUpdateContainerId: "gridContent");
+    grid.Pager(WebGridPagerModes.NextPrevious);
+
+}
+
+<style type="text/css">
+    .table {
+        margin: 4px;
+        border-collapse: collapse;
+        width: 300px;
+    }
+
+    .header {
+        background-color: gray;
+        font-weight: bold;
+        color: green;
+    }
+
+    .table th, .table td {
+        border: 1px solid black;
+        padding: 5px;
+    }
+</style>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script>
+    $(function () {
+        $('.edit-mode').hide();
+        $('.edit-state').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+        $('.save-state').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var stateId = $(this).prop('id');
+            var stateName = tr.find('#state_name').val();
+            tr.find('#state_name').text(stateName)
+            tr.find('.edit-mode, .display-mode').toggle();
+            $.post(
+                '/EditState/EditState',
+               { state_id: stateId, state_name: stateName });              
+        });
+    })
+</script>
+
+<div id="content">
+@grid.GetHtml(
+    tableStyle: "table",
+    footerStyle: "grid-footer",
+    mode: WebGridPagerModes.All,
+    firstText: "<<First",
+    previousText: "<Prev",
+    nextText: "Next>",
+    lastText: "Last>>",
+    alternatingRowStyle: "alternate",
+    selectedRowStyle: "selected",
+    headerStyle: "header",
+    columns: grid.Columns
+    (
+        grid.Column("", header: "Update",
+                    style: "col1",
+                    format: @<text>
+                    
+                        <button class="edit-state display-mode" id="@item.state_id">Edit</button>
+                        <button class="save-state edit-mode" id="@item.state_id">Save</button>
+                    </text>),
+        grid.Column("state_name", header: "State Name",
+                    style: "col1",
+                    format:@<text>
+                        <span id="state" class="display-mode">@item.state_name</span>  
+                        @Html.TextBox("state_name", (object)item.state_name, new { @class = "edit-mode", size = 45 })                      
+                    </text>)
+   )
+)
+</div>
+
+ 
+
+ 

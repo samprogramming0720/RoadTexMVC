@@ -1,0 +1,865 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RoadTex_MVC_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblCustomer">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="contact_name" Type="varchar" MaxLength="50" />
+          <Property Name="customer_status" Type="bit" Nullable="false" />
+          <Property Name="sales_rep" Type="int" Nullable="false" />
+          <Property Name="preparer" Type="int" Nullable="false" />
+          <Property Name="customer_priority" Type="int" />
+          <Property Name="follow_up_type" Type="int" />
+          <Property Name="follow_up_date" Type="datetime" />
+          <Property Name="state_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPermission">
+          <Key>
+            <PropertyRef Name="perm_id" />
+          </Key>
+          <Property Name="perm_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="permission" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRegion">
+          <Key>
+            <PropertyRef Name="region_id" />
+          </Key>
+          <Property Name="region_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="region_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="region_description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRole_Permission">
+          <Key>
+            <PropertyRef Name="role_permission_id" />
+          </Key>
+          <Property Name="role_permission_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+          <Property Name="perm_id" Type="int" Nullable="false" />
+          <Property Name="edit_perm" Type="bit" Nullable="false" />
+          <Property Name="view_perm" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblState">
+          <Key>
+            <PropertyRef Name="state_id" />
+          </Key>
+          <Property Name="state_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="state_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="region_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="e_mail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_role_id" Type="int" Nullable="false" />
+          <Property Name="isSalesRep" Type="bit" Nullable="false" />
+          <Property Name="isPreparer" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblCustom__prepa__24927208">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tblCustomer">
+              <PropertyRef Name="preparer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblCustom__sales__239E4DCF">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tblCustomer">
+              <PropertyRef Name="sales_rep" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblCustom__state__25869641">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="1" />
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tblCustomer">
+              <PropertyRef Name="state_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblRole_P__perm___164452B1">
+          <End Role="tblPermission" Type="Self.tblPermission" Multiplicity="1" />
+          <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPermission">
+              <PropertyRef Name="perm_id" />
+            </Principal>
+            <Dependent Role="tblRole_Permission">
+              <PropertyRef Name="perm_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblRole_P__role___15502E78">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="tblRole_Permission">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblState__region__20C1E124">
+          <End Role="tblRegion" Type="Self.tblRegion" Multiplicity="1" />
+          <End Role="tblState" Type="Self.tblState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRegion">
+              <PropertyRef Name="region_id" />
+            </Principal>
+            <Dependent Role="tblState">
+              <PropertyRef Name="region_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUsers__user_r__1B0907CE">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="user_role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_AddNewRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="roleName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_AddRegion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="regionName" Type="nvarchar" Mode="In" />
+          <Parameter Name="regionDescription" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_AddState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stateName" Type="nvarchar" Mode="In" />
+          <Parameter Name="regionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_cm_create_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customer_name" Type="varchar" Mode="In" />
+          <Parameter Name="contact_name" Type="varchar" Mode="In" />
+          <Parameter Name="customer_status" Type="bit" Mode="In" />
+          <Parameter Name="sales_rep" Type="int" Mode="In" />
+          <Parameter Name="preparer" Type="int" Mode="In" />
+          <Parameter Name="customer_priority" Type="int" Mode="In" />
+          <Parameter Name="follow_up_type" Type="int" Mode="In" />
+          <Parameter Name="follow_up_date" Type="datetime" Mode="In" />
+          <Parameter Name="state_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_cm_delete_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customer_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_cm_select_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customer_name" Type="nvarchar" Mode="In" />
+          <Parameter Name="contact_name" Type="nvarchar" Mode="In" />
+          <Parameter Name="sales_rep" Type="int" Mode="In" />
+          <Parameter Name="preparer" Type="int" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="In" />
+          <Parameter Name="follow_up_type" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_cm_update_customers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="customer_name" Type="varchar" Mode="In" />
+          <Parameter Name="contact_name" Type="varchar" Mode="In" />
+          <Parameter Name="customer_status" Type="bit" Mode="In" />
+          <Parameter Name="sales_rep" Type="int" Mode="In" />
+          <Parameter Name="preparer" Type="int" Mode="In" />
+          <Parameter Name="customer_priority" Type="int" Mode="In" />
+          <Parameter Name="follow_up_type" Type="int" Mode="In" />
+          <Parameter Name="follow_up_date" Type="datetime" Mode="In" />
+          <Parameter Name="state_id" Type="int" Mode="In" />
+          <Parameter Name="customer_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="roleName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stateName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_getRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Role" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_p_create_permission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="permission" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ResetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="emailAdd" Type="varchar" Mode="In" />
+          <Parameter Name="confirmPass" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_rp_create_roleperm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="role_id" Type="int" Mode="In" />
+          <Parameter Name="perm_id" Type="int" Mode="In" />
+          <Parameter Name="edit_perm" Type="bit" Mode="In" />
+          <Parameter Name="view_perm" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="sp_rp_select_roleperm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="role_id" Type="int" Mode="In" />
+          <Parameter Name="perm_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Search" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="searchParam" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SelectStates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_um_create_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="RoleID" Type="int" Mode="In" />
+          <Parameter Name="IsSalesRep" Type="bit" Mode="In" />
+          <Parameter Name="IsPreparer" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="sp_um_delete_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_um_select_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_um_update_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="first_name" Type="varchar" Mode="In" />
+          <Parameter Name="last_name" Type="varchar" Mode="In" />
+          <Parameter Name="e_mail" Type="varchar" Mode="In" />
+          <Parameter Name="user_role_id" Type="int" Mode="In" />
+          <Parameter Name="isSalesRep" Type="bit" Mode="In" />
+          <Parameter Name="isPreparer" Type="bit" Mode="In" />
+          <Parameter Name="user_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdatedRow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="newRoleName" Type="nvarchar" Mode="In" />
+          <Parameter Name="oldRoleName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stateId" Type="int" Mode="In" />
+          <Parameter Name="newStateName" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="RoadTex_MVC_ModelStoreContainer">
+          <EntitySet Name="tblCustomer" EntityType="Self.tblCustomer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPermission" EntityType="Self.tblPermission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRegion" EntityType="Self.tblRegion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRole_Permission" EntityType="Self.tblRole_Permission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblState" EntityType="Self.tblState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblCustom__prepa__24927208" Association="Self.FK__tblCustom__prepa__24927208">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblCustom__sales__239E4DCF" Association="Self.FK__tblCustom__sales__239E4DCF">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblCustom__state__25869641" Association="Self.FK__tblCustom__state__25869641">
+            <End Role="tblState" EntitySet="tblState" />
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblRole_P__perm___164452B1" Association="Self.FK__tblRole_P__perm___164452B1">
+            <End Role="tblPermission" EntitySet="tblPermission" />
+            <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblRole_P__role___15502E78" Association="Self.FK__tblRole_P__role___15502E78">
+            <End Role="tblRole" EntitySet="tblRole" />
+            <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblState__region__20C1E124" Association="Self.FK__tblState__region__20C1E124">
+            <End Role="tblRegion" EntitySet="tblRegion" />
+            <End Role="tblState" EntitySet="tblState" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUsers__user_r__1B0907CE" Association="Self.FK__tblUsers__user_r__1B0907CE">
+            <End Role="tblRole" EntitySet="tblRole" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RoadTex_MVC_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCustomer">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="customer_status" Type="Boolean" Nullable="false" />
+          <Property Name="sales_rep" Type="Int32" Nullable="false" />
+          <Property Name="preparer" Type="Int32" Nullable="false" />
+          <Property Name="customer_priority" Type="Int32" />
+          <Property Name="follow_up_type" Type="Int32" />
+          <Property Name="follow_up_date" Type="DateTime" Precision="3" />
+          <Property Name="state_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblCustom__prepa__24927208" FromRole="tblCustomer" ToRole="tblUsers" />
+          <NavigationProperty Name="tblUser1" Relationship="Self.FK__tblCustom__sales__239E4DCF" FromRole="tblCustomer" ToRole="tblUsers" />
+          <NavigationProperty Name="tblState" Relationship="Self.FK__tblCustom__state__25869641" FromRole="tblCustomer" ToRole="tblState" />
+        </EntityType>
+        <EntityType Name="tblPermission">
+          <Key>
+            <PropertyRef Name="perm_id" />
+          </Key>
+          <Property Name="perm_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="permission" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblRole_Permission" Relationship="Self.FK__tblRole_P__perm___164452B1" FromRole="tblPermission" ToRole="tblRole_Permission" />
+        </EntityType>
+        <EntityType Name="tblRegion">
+          <Key>
+            <PropertyRef Name="region_id" />
+          </Key>
+          <Property Name="region_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="region_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="region_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblStates" Relationship="Self.FK__tblState__region__20C1E124" FromRole="tblRegion" ToRole="tblState" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="role_id" />
+          </Key>
+          <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblRole_Permission" Relationship="Self.FK__tblRole_P__role___15502E78" FromRole="tblRole" ToRole="tblRole_Permission" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK__tblUsers__user_r__1B0907CE" FromRole="tblRole" ToRole="tblUsers" />
+        </EntityType>
+        <EntityType Name="tblRole_Permission">
+          <Key>
+            <PropertyRef Name="role_permission_id" />
+          </Key>
+          <Property Name="role_permission_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <Property Name="perm_id" Type="Int32" Nullable="false" />
+          <Property Name="edit_perm" Type="Boolean" Nullable="false" />
+          <Property Name="view_perm" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblPermission" Relationship="Self.FK__tblRole_P__perm___164452B1" FromRole="tblRole_Permission" ToRole="tblPermission" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK__tblRole_P__role___15502E78" FromRole="tblRole_Permission" ToRole="tblRole" />
+        </EntityType>
+        <EntityType Name="tblState">
+          <Key>
+            <PropertyRef Name="state_id" />
+          </Key>
+          <Property Name="state_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="state_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="region_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblCustomers" Relationship="Self.FK__tblCustom__state__25869641" FromRole="tblState" ToRole="tblCustomer" />
+          <NavigationProperty Name="tblRegion" Relationship="Self.FK__tblState__region__20C1E124" FromRole="tblState" ToRole="tblRegion" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="e_mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_role_id" Type="Int32" Nullable="false" />
+          <Property Name="isSalesRep" Type="Boolean" Nullable="false" />
+          <Property Name="isPreparer" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCustomers" Relationship="Self.FK__tblCustom__prepa__24927208" FromRole="tblUsers" ToRole="tblCustomer" />
+          <NavigationProperty Name="tblCustomers1" Relationship="Self.FK__tblCustom__sales__239E4DCF" FromRole="tblUsers" ToRole="tblCustomer" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK__tblUsers__user_r__1B0907CE" FromRole="tblUsers" ToRole="tblRole" />
+        </EntityType>
+        <Association Name="FK__tblCustom__prepa__24927208">
+          <End Role="tblUsers" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tblCustomer">
+              <PropertyRef Name="preparer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblCustom__sales__239E4DCF">
+          <End Role="tblUsers" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tblCustomer">
+              <PropertyRef Name="sales_rep" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblCustom__state__25869641">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="1" />
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tblCustomer">
+              <PropertyRef Name="state_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblRole_P__perm___164452B1">
+          <End Role="tblPermission" Type="Self.tblPermission" Multiplicity="1" />
+          <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPermission">
+              <PropertyRef Name="perm_id" />
+            </Principal>
+            <Dependent Role="tblRole_Permission">
+              <PropertyRef Name="perm_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblState__region__20C1E124">
+          <End Role="tblRegion" Type="Self.tblRegion" Multiplicity="1" />
+          <End Role="tblState" Type="Self.tblState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRegion">
+              <PropertyRef Name="region_id" />
+            </Principal>
+            <Dependent Role="tblState">
+              <PropertyRef Name="region_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblRole_P__role___15502E78">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblRole_Permission" Type="Self.tblRole_Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="tblRole_Permission">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUsers__user_r__1B0907CE">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblUsers" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="tblUsers">
+              <PropertyRef Name="user_role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RoadTex_MVC_Model_Server" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
+          <EntitySet Name="tblPermissions" EntityType="Self.tblPermission" />
+          <EntitySet Name="tblRegions" EntityType="Self.tblRegion" />
+          <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+          <EntitySet Name="tblRole_Permission" EntityType="Self.tblRole_Permission" />
+          <EntitySet Name="tblStates" EntityType="Self.tblState" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <AssociationSet Name="FK__tblCustom__prepa__24927208" Association="Self.FK__tblCustom__prepa__24927208">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblCustomer" EntitySet="tblCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblCustom__sales__239E4DCF" Association="Self.FK__tblCustom__sales__239E4DCF">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblCustomer" EntitySet="tblCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblCustom__state__25869641" Association="Self.FK__tblCustom__state__25869641">
+            <End Role="tblState" EntitySet="tblStates" />
+            <End Role="tblCustomer" EntitySet="tblCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblRole_P__perm___164452B1" Association="Self.FK__tblRole_P__perm___164452B1">
+            <End Role="tblPermission" EntitySet="tblPermissions" />
+            <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblState__region__20C1E124" Association="Self.FK__tblState__region__20C1E124">
+            <End Role="tblRegion" EntitySet="tblRegions" />
+            <End Role="tblState" EntitySet="tblStates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblRole_P__role___15502E78" Association="Self.FK__tblRole_P__role___15502E78">
+            <End Role="tblRole" EntitySet="tblRoles" />
+            <End Role="tblRole_Permission" EntitySet="tblRole_Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUsers__user_r__1B0907CE" Association="Self.FK__tblUsers__user_r__1B0907CE">
+            <End Role="tblRole" EntitySet="tblRoles" />
+            <End Role="tblUsers" EntitySet="tblUsers" />
+          </AssociationSet>
+          <FunctionImport Name="sp_AddNewRole">
+          <Parameter Name="roleName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AddRegion">
+            <Parameter Name="regionName" Mode="In" Type="String" />
+            <Parameter Name="regionDescription" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AddState">
+            <Parameter Name="stateName" Mode="In" Type="String" />
+            <Parameter Name="regionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_cm_create_customers">
+            <Parameter Name="customer_name" Mode="In" Type="String" />
+            <Parameter Name="contact_name" Mode="In" Type="String" />
+            <Parameter Name="customer_status" Mode="In" Type="Boolean" />
+            <Parameter Name="sales_rep" Mode="In" Type="Int32" />
+            <Parameter Name="preparer" Mode="In" Type="Int32" />
+            <Parameter Name="customer_priority" Mode="In" Type="Int32" />
+            <Parameter Name="follow_up_type" Mode="In" Type="Int32" />
+            <Parameter Name="follow_up_date" Mode="In" Type="DateTime" />
+            <Parameter Name="state_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_cm_delete_customers">
+          <Parameter Name="customer_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_cm_select_customers">
+            <Parameter Name="customer_name" Mode="In" Type="String" />
+            <Parameter Name="contact_name" Mode="In" Type="String" />
+            <Parameter Name="sales_rep" Mode="In" Type="Int32" />
+            <Parameter Name="preparer" Mode="In" Type="Int32" />
+            <Parameter Name="status" Mode="In" Type="Int32" />
+            <Parameter Name="follow_up_type" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_cm_update_customers">
+            <Parameter Name="customer_name" Mode="In" Type="String" />
+            <Parameter Name="contact_name" Mode="In" Type="String" />
+            <Parameter Name="customer_status" Mode="In" Type="Boolean" />
+            <Parameter Name="sales_rep" Mode="In" Type="Int32" />
+            <Parameter Name="preparer" Mode="In" Type="Int32" />
+            <Parameter Name="customer_priority" Mode="In" Type="Int32" />
+            <Parameter Name="follow_up_type" Mode="In" Type="Int32" />
+            <Parameter Name="follow_up_date" Mode="In" Type="DateTime" />
+            <Parameter Name="state_id" Mode="In" Type="Int32" />
+            <Parameter Name="customer_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteRole">
+          <Parameter Name="roleName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DeleteState">
+          <Parameter Name="stateName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_p_create_permission">
+          <Parameter Name="permission" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ResetPassword">
+            <Parameter Name="emailAdd" Mode="In" Type="String" />
+            <Parameter Name="confirmPass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_rp_create_roleperm">
+            <Parameter Name="role_id" Mode="In" Type="Int32" />
+            <Parameter Name="perm_id" Mode="In" Type="Int32" />
+            <Parameter Name="edit_perm" Mode="In" Type="Boolean" />
+            <Parameter Name="view_perm" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="sp_rp_select_roleperm" ReturnType="Collection(RoadTex_MVC_Model.sp_rp_select_roleperm_Result)">
+            <Parameter Name="role_id" Mode="In" Type="Int32" />
+            <Parameter Name="perm_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SelectStates" ReturnType="Collection(RoadTex_MVC_Model.sp_SelectStates_Result)" />
+          <FunctionImport Name="sp_um_create_user">
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="RoleID" Mode="In" Type="Int32" />
+            <Parameter Name="IsSalesRep" Mode="In" Type="Boolean" />
+            <Parameter Name="IsPreparer" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="sp_um_delete_user">
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_um_select_user" ReturnType="Collection(RoadTex_MVC_Model.sp_um_select_user_Result)" />
+          <FunctionImport Name="sp_um_update_user">
+            <Parameter Name="first_name" Mode="In" Type="String" />
+            <Parameter Name="last_name" Mode="In" Type="String" />
+            <Parameter Name="e_mail" Mode="In" Type="String" />
+            <Parameter Name="user_role_id" Mode="In" Type="Int32" />
+            <Parameter Name="isSalesRep" Mode="In" Type="Boolean" />
+            <Parameter Name="isPreparer" Mode="In" Type="Boolean" />
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateRole">
+            <Parameter Name="newRoleName" Mode="In" Type="String" />
+            <Parameter Name="oldRoleName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateState">
+            <Parameter Name="stateId" Mode="In" Type="Int32" />
+            <Parameter Name="newStateName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetCustomers" ReturnType="Collection(RoadTex_MVC_Model.sp_GetCustomers_Result)" />
+          <FunctionImport Name="sp_Search" ReturnType="Collection(RoadTex_MVC_Model.sp_Search_Result)">
+          <Parameter Name="searchParam" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdatedRow" ReturnType="Collection(RoadTex_MVC_Model.sp_UpdatedRow_Result)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_getRole" ReturnType="Collection(RoadTex_MVC_Model.sp_getRole_Result)">
+            <Parameter Name="Role" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_rp_select_roleperm_Result">
+          <Property Type="Boolean" Name="edit_perm" Nullable="false" />
+          <Property Type="Boolean" Name="view_perm" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_um_select_user_Result">
+          <Property Type="Int32" Name="user_id" Nullable="false" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="e_mail" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="user_role_id" Nullable="false" />
+          <Property Type="Boolean" Name="isSalesRep" Nullable="false" />
+          <Property Type="Boolean" Name="isPreparer" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_GetCustomers_Result">
+          <Property Type="String" Name="customer_name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="contact_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sales_rep" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="preparer" Nullable="false" MaxLength="101" />
+          <Property Type="Boolean" Name="customer_status" Nullable="false" />
+          <Property Type="Int32" Name="follow_up_type" Nullable="true" />
+          <Property Type="String" Name="followUp_date" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="customer_priority" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Search_Result">
+          <Property Type="String" Name="customer_name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="contact_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sales_rep" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="preparer" Nullable="false" MaxLength="101" />
+          <Property Type="Boolean" Name="customer_status" Nullable="false" />
+          <Property Type="Int32" Name="follow_up_type" Nullable="true" />
+          <Property Type="String" Name="followUp_date" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="customer_priority" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_SelectStates_Result">
+          <Property Type="Int32" Name="state_id" Nullable="false" />
+          <Property Type="String" Name="state_name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="region_id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_UpdatedRow_Result">
+          <Property Type="Int32" Name="state_id" Nullable="false" />
+          <Property Type="String" Name="state_name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="region_id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_getRole_Result">
+          <Property Type="Int32" Name="role_id" Nullable="false" />
+          <Property Type="String" Name="role_name" Nullable="false" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RoadTex_MVC_ModelStoreContainer" CdmEntityContainer="RoadTex_MVC_Model_Server">
+          <EntitySetMapping Name="tblCustomers">
+            <EntityTypeMapping TypeName="RoadTex_MVC_Model.tblCustomer">
+              <MappingFragment StoreEntitySet="tblCustomer">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="contact_name" ColumnName="contact_name" />
+                <ScalarProperty Name="customer_status" ColumnName="customer_status" />
+                <ScalarProperty Name="sales_rep" ColumnName="sales_rep" />
+                <ScalarProperty Name="preparer" ColumnName="preparer" />
+                <ScalarProperty Name="customer_priority" ColumnName="customer_priority" />
+                <ScalarProperty Name="follow_up_type" ColumnName="follow_up_type" />
+                <ScalarProperty Name="follow_up_date" ColumnName="follow_up_date" />
+                <ScalarProperty Name="state_id" ColumnName="state_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPermissions">
+            <EntityTypeMapping TypeName="RoadTex_MVC_Model.tblPermission">
+              <MappingFragment StoreEntitySet="tblPermission">
+                <ScalarProperty Name="perm_id" ColumnName="perm_id" />
+                <ScalarProperty Name="permission" ColumnName="permission" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRegions">
+            <EntityTypeMapping TypeName="RoadTex_MVC_Model.tblRegion">
+              <MappingFragment StoreEntitySet="tblRegion">
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+                <ScalarProperty Name="region_name" ColumnName="region_name" />
+                <ScalarProperty Name="region_description" ColumnName="region_description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRoles">
+            <EntityTypeMapping TypeName="RoadTex_MVC_Model.tblRole">
+              <MappingFragment StoreEntitySet="tblRole">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRole_Permission">
+            <EntityTypeMapping TypeName="RoadTex_MVC_Model.tblRole_Permission">
+              <MappingFragment StoreEntitySet="tblRole_Permission">
+                <ScalarProperty Name="role_permission_id" ColumnName="role_permission_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="perm_id" ColumnName="perm_id" />
+                <ScalarProperty Name="edit_perm" ColumnName="edit_perm" />
+                <ScalarProperty Name="view_perm" ColumnName="view_perm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStates">
+            <EntityTypeMapping TypeName="RoadTex_MVC_Model.tblState">
+              <MappingFragment StoreEntitySet="tblState">
+                <ScalarProperty Name="state_id" ColumnName="state_id" />
+                <ScalarProperty Name="state_name" ColumnName="state_name" />
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="RoadTex_MVC_Model.tblUser">
+              <MappingFragment StoreEntitySet="tblUsers">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="e_mail" ColumnName="e_mail" />
+                <ScalarProperty Name="user_role_id" ColumnName="user_role_id" />
+                <ScalarProperty Name="isSalesRep" ColumnName="isSalesRep" />
+                <ScalarProperty Name="isPreparer" ColumnName="isPreparer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_AddNewRole" FunctionName="RoadTex_MVC_Model.Store.sp_AddNewRole" />
+          <FunctionImportMapping FunctionImportName="sp_AddRegion" FunctionName="RoadTex_MVC_Model.Store.sp_AddRegion" />
+          <FunctionImportMapping FunctionImportName="sp_AddState" FunctionName="RoadTex_MVC_Model.Store.sp_AddState" />
+          <FunctionImportMapping FunctionImportName="sp_cm_create_customers" FunctionName="RoadTex_MVC_Model.Store.sp_cm_create_customers" />
+          <FunctionImportMapping FunctionImportName="sp_cm_delete_customers" FunctionName="RoadTex_MVC_Model.Store.sp_cm_delete_customers" />
+          <FunctionImportMapping FunctionImportName="sp_cm_select_customers" FunctionName="RoadTex_MVC_Model.Store.sp_cm_select_customers" />
+          <FunctionImportMapping FunctionImportName="sp_cm_update_customers" FunctionName="RoadTex_MVC_Model.Store.sp_cm_update_customers" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteRole" FunctionName="RoadTex_MVC_Model.Store.sp_DeleteRole" />
+          <FunctionImportMapping FunctionImportName="sp_DeleteState" FunctionName="RoadTex_MVC_Model.Store.sp_DeleteState" />
+          <FunctionImportMapping FunctionImportName="sp_p_create_permission" FunctionName="RoadTex_MVC_Model.Store.sp_p_create_permission" />
+          <FunctionImportMapping FunctionImportName="sp_ResetPassword" FunctionName="RoadTex_MVC_Model.Store.sp_ResetPassword" />
+          <FunctionImportMapping FunctionImportName="sp_rp_create_roleperm" FunctionName="RoadTex_MVC_Model.Store.sp_rp_create_roleperm" />
+          <FunctionImportMapping FunctionImportName="sp_rp_select_roleperm" FunctionName="RoadTex_MVC_Model.Store.sp_rp_select_roleperm">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoadTex_MVC_Model.sp_rp_select_roleperm_Result">
+                <ScalarProperty Name="edit_perm" ColumnName="edit_perm" />
+                <ScalarProperty Name="view_perm" ColumnName="view_perm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_SelectStates" FunctionName="RoadTex_MVC_Model.Store.sp_SelectStates" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoadTex_MVC_Model.sp_SelectStates_Result">
+                <ScalarProperty Name="state_id" ColumnName="state_id" />
+                <ScalarProperty Name="state_name" ColumnName="state_name" />
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_um_create_user" FunctionName="RoadTex_MVC_Model.Store.sp_um_create_user" />
+          <FunctionImportMapping FunctionImportName="sp_um_delete_user" FunctionName="RoadTex_MVC_Model.Store.sp_um_delete_user" />
+          <FunctionImportMapping FunctionImportName="sp_um_select_user" FunctionName="RoadTex_MVC_Model.Store.sp_um_select_user">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoadTex_MVC_Model.sp_um_select_user_Result">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="e_mail" ColumnName="e_mail" />
+                <ScalarProperty Name="user_role_id" ColumnName="user_role_id" />
+                <ScalarProperty Name="isSalesRep" ColumnName="isSalesRep" />
+                <ScalarProperty Name="isPreparer" ColumnName="isPreparer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_um_update_user" FunctionName="RoadTex_MVC_Model.Store.sp_um_update_user" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateRole" FunctionName="RoadTex_MVC_Model.Store.sp_UpdateRole" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateState" FunctionName="RoadTex_MVC_Model.Store.sp_UpdateState" />
+          <FunctionImportMapping FunctionImportName="sp_GetCustomers" FunctionName="RoadTex_MVC_Model.Store.sp_GetCustomers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoadTex_MVC_Model.sp_GetCustomers_Result">
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="contact_name" ColumnName="contact_name" />
+                <ScalarProperty Name="sales_rep" ColumnName="sales_rep" />
+                <ScalarProperty Name="preparer" ColumnName="preparer" />
+                <ScalarProperty Name="customer_status" ColumnName="customer_status" />
+                <ScalarProperty Name="follow_up_type" ColumnName="follow_up_type" />
+                <ScalarProperty Name="followUp_date" ColumnName="followUp_date" />
+                <ScalarProperty Name="customer_priority" ColumnName="customer_priority" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Search" FunctionName="RoadTex_MVC_Model.Store.sp_Search">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoadTex_MVC_Model.sp_Search_Result">
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="contact_name" ColumnName="contact_name" />
+                <ScalarProperty Name="sales_rep" ColumnName="sales_rep" />
+                <ScalarProperty Name="preparer" ColumnName="preparer" />
+                <ScalarProperty Name="customer_status" ColumnName="customer_status" />
+                <ScalarProperty Name="follow_up_type" ColumnName="follow_up_type" />
+                <ScalarProperty Name="followUp_date" ColumnName="followUp_date" />
+                <ScalarProperty Name="customer_priority" ColumnName="customer_priority" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_UpdatedRow" FunctionName="RoadTex_MVC_Model.Store.sp_UpdatedRow">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoadTex_MVC_Model.sp_UpdatedRow_Result">
+                <ScalarProperty Name="state_id" ColumnName="state_id" />
+                <ScalarProperty Name="state_name" ColumnName="state_name" />
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_getRole" FunctionName="RoadTex_MVC_Model.Store.sp_getRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoadTex_MVC_Model.sp_getRole_Result">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

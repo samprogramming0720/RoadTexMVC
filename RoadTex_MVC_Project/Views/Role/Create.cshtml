@@ -1,0 +1,18 @@
+﻿@model RoadTex_MVC_Project.Models.Role_Model.RoleModel
+
+<div>
+    <div>
+        <span id="Error-message" class="text-danger"></span>
+    </div>
+    <div>
+        @Html.LabelFor(e => e.RoleDescription)
+        @Html.TextBoxFor(e => e.RoleDescription, new { @id = "Role_DESC" })
+    </div>
+    <div>
+        <button id="SaveRoleBtn">Save</button>
+    </div>
+</div>
+<script type="text/javascript">
+    $.getScript("/Scripts/RoleSave.js");
+
+</script> 

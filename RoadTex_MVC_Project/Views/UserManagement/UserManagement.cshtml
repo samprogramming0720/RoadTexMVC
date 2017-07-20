@@ -1,0 +1,107 @@
+﻿@model RoadTex_MVC_Project.Models.UserManagement_Model.UMViewModel
+@section scripts {
+    <script src="@Url.Content("~/Scripts/UserManagement.js")">
+    </script>
+}
+@{
+    ViewBag.Title = "User Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.Title</h2>
+
+<div id="UM-WebGrid">
+    @{
+        WebGrid grid = new WebGrid(Model.UserList);
+        @grid.GetHtml(
+            tableStyle: "um-grid-style",
+            fillEmptyRows: false,
+            headerStyle: "um-header-style",
+            alternatingRowStyle: "um-alternate-row-style",
+            rowStyle: "um-row-style",
+            footerStyle: "um-footer-style",
+
+            mode: WebGridPagerModes.All,
+            firstText: "<< First",
+            previousText: "< Prev",
+            nextText: "Next >",
+            lastText: "Last >>",
+            columns: new[]
+            {
+                grid.Column
+                (
+                    "first_name",
+                    format: @<text>
+                        <span id="RO_FirstName" class="display-mode">@item.first_name</span>
+                        @Html.TextBox("ED_FirstName", (object)item.first_name, new {@class = "edit-mode" } )
+                    </text>
+                ),
+                grid.Column
+                (
+                    "last_name",
+                    format: @<text>
+                        <span id="RO_LastName" class="display-mode">@item.last_name</span>
+                        @Html.TextBox("ED_LastName", (object)item.last_name, new {@class = "edit-mode"} )
+                    </text>
+                ),
+                grid.Column
+                (
+                    "e_mail",
+                    format: @<text>
+                        <span id="RO_Email" class="display-mode">@item.e_mail</span>
+                        @Html.TextBox("ED_Email", (object)item.e_mail, new {@class = "edit-mode"} )
+                    </text>
+                ),
+                grid.Column
+                (
+                    "user_role_id",
+                    format: @<text>
+                        @Html.DropDownList("RO_Roles_List",
+                                new SelectList(Model.RolesList, "Value", "Text", item.user_role_id),
+                                new {@class = "display-mode", @disabled="disabled"})
+                        @Html.DropDownList("ED_Roles_List",
+                                new SelectList(Model.RolesList, "Value", "Text", item.user_role_id),
+                                new {@class = "edit-mode"} )
+                    </text>
+                ),
+                grid.Column
+                (
+                    "isSalesRep",
+                    format: @<text>
+                        @Html.CheckBox("RO_IsSalesRep", (bool)item.isSalesRep, new {@class = "display-mode", @disabled="disabled"})
+                        @Html.CheckBox("ED_IsSalesRep", (bool)item.isSalesRep, new {@class = "edit-mode"})
+                    </text>
+                ),
+                grid.Column
+                (
+                    "isPreparer",
+                    format: @<text>
+                        @Html.CheckBox("RO_IsPreparer", (bool)item.isPreparer, new {@class = "display-mode", @disabled="disabled" })
+                        @Html.CheckBox("ED_IsPreparer", (bool)item.isPreparer, new {@class = "edit-mode" })
+                    </text>
+                ),
+                grid.Column
+                (
+                    header:"Action",
+                    format:
+                    @<text>
+                        <button class="edit-user display-mode" id="@item.user_id">Edit</button>
+                        <button class="save-user edit-mode" id="@item.user_id">Save</button>
+                        <button class="cancel edit-mode">Cancel</button>
+                        <button class="delete-user display-mode" id="@item.user_id">Delete</button>
+                    </text>
+                )
+            }
+        )
+    }
+    <div>
+        <button id="CreateBtn">Create New User</button>
+    </div>
+</div>
+<div id="AppendPartial"></div>
+
+@if (TempData["Message"] != null)
+{
+    <div>
+        <span>@TempData["Message"]</span>
+    </div>
+}

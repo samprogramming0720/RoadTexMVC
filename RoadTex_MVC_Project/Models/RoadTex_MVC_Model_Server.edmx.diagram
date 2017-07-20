@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7a856105a8f745298ef0f24d19ecc87c" Name="Diagram1">
+        <EntityTypeShape EntityType="RoadTex_MVC_Model.tblCustomer" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoadTex_MVC_Model.tblPermission" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoadTex_MVC_Model.tblRegion" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoadTex_MVC_Model.tblRole" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoadTex_MVC_Model.tblRole_Permission" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoadTex_MVC_Model.tblState" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RoadTex_MVC_Model.tblUser" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <AssociationConnector Association="RoadTex_MVC_Model.FK__tblCustom__prepa__24927208" ManuallyRouted="false" />
+        <AssociationConnector Association="RoadTex_MVC_Model.FK__tblCustom__sales__239E4DCF" ManuallyRouted="false" />
+        <AssociationConnector Association="RoadTex_MVC_Model.FK__tblCustom__state__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="RoadTex_MVC_Model.FK__tblRole_P__perm___164452B1" ManuallyRouted="false" />
+        <AssociationConnector Association="RoadTex_MVC_Model.FK__tblState__region__20C1E124" ManuallyRouted="false" />
+        <AssociationConnector Association="RoadTex_MVC_Model.FK__tblRole_P__role___15502E78" ManuallyRouted="false" />
+        <AssociationConnector Association="RoadTex_MVC_Model.FK__tblUsers__user_r__1B0907CE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

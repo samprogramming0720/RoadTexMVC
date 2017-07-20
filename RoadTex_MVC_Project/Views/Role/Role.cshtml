@@ -1,0 +1,43 @@
+﻿@model RoadTex_MVC_Project.Models.Role_Model.RoleModel
+
+@{
+    ViewBag.Title = "Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.Title</h2>
+@section scripts {
+    <script src="@Url.Content("~/Scripts/Role.js")"></script>
+}
+<div>
+    @if (Model.ListOfRoles.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>@Html.LabelFor(e=>e.RoleDescription)</th>
+                <th colspan="2">Action</th>
+            </tr>
+            @foreach (var item in Model.ListOfRoles)
+            {
+                <tr>
+                    <td>
+                        <span id="role_span" class="display-mode">@item.role_name</span>
+                        @Html.TextBox("role_textbox", @item.role_name , new { @class = "edit-mode", @id="role_textbox" })
+                    </td>
+                    <td>
+                        <button class="edit-role display-mode" id="@item.role_id">Edit</button>
+                        <button class="update-role edit-mode" id="@item.role_id">Update</button>
+                    </td>
+                    <td>
+                        <button class="delete-role display-mode" id="@item.role_id">Delete</button>
+                        <button class="cancel edit-mode">Cancel</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+<div>
+    <button id="CreateBtn">Create</button>
+</div>
+
+<div id="AppendPartial"></div>

@@ -1,0 +1,59 @@
+﻿
+@model RoadTex_MVC_Project.Models.ShowCustomers
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<fieldset>
+
+    <legend>@ViewBag.Title</legend>
+    @if (Session["UserName"] != null)
+    {
+        <h2>Welcome @Session["UserName"].ToString() </h2>
+    }
+        
+
+
+    @Html.ActionLink("Add Customer", "AddCustomer", "CustomerDashBoard", new { @class = "form-control" }, null)
+    @using (Html.BeginForm("Index", "CustomerDashBoard", FormMethod.Get))
+    {
+    @Html.TextBox("search") <input type="submit" value="Search" />
+
+    }
+    <br/>
+    <style>
+        table, td, th {
+            border: 1px solid green;
+            border-collapse: collapse;
+        }
+
+        th {
+            border: 1px solid black;
+            background-color: green;
+            color: white;
+        }
+    </style>
+    @using (@Html.BeginForm("Index", "CustomerDashBoard"))
+    {
+        var grid = new WebGrid(Model.CustomerList, canSort: true);
+
+        <div>
+            @grid.GetHtml(columns:
+                                     grid.Columns
+                                     (
+                                         grid.Column("Account", "Account Name"),
+                                         grid.Column("Contact", "Contact Name"),
+                                         grid.Column("SalesRep", "Sales REP"),
+                                         grid.Column("Preparer", "Prepared By"),
+                                         grid.Column("Status", "Status"),
+                                          grid.Column("FollowUp", "Follow Up Type"),
+                                         grid.Column("FollowUpDate", "Follow Up Date"),
+                                         grid.Column("Priority", "Priority")
+                                     ), mode: WebGridPagerModes.Numeric)
+        </div>
+    }
+    
+</fieldset>
+
+

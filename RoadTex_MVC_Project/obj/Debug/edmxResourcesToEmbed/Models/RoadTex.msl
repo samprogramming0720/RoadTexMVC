@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RoadTex_MVCModelStoreContainer" CdmEntityContainer="RoadTex_MVCEntities3">
+    <EntitySetMapping Name="tblCustomers">
+      <EntityTypeMapping TypeName="RoadTex_MVCModel.tblCustomer">
+        <MappingFragment StoreEntitySet="tblCustomer">
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="contact_name" ColumnName="contact_name" />
+          <ScalarProperty Name="customer_status" ColumnName="customer_status" />
+          <ScalarProperty Name="sales_rep" ColumnName="sales_rep" />
+          <ScalarProperty Name="preparer" ColumnName="preparer" />
+          <ScalarProperty Name="customer_priority" ColumnName="customer_priority" />
+          <ScalarProperty Name="follow_up_type" ColumnName="follow_up_type" />
+          <ScalarProperty Name="follow_up_date" ColumnName="follow_up_date" />
+          <ScalarProperty Name="state_id" ColumnName="state_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPermissions">
+      <EntityTypeMapping TypeName="RoadTex_MVCModel.tblPermission">
+        <MappingFragment StoreEntitySet="tblPermission">
+          <ScalarProperty Name="perm_id" ColumnName="perm_id" />
+          <ScalarProperty Name="permission" ColumnName="permission" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRegions">
+      <EntityTypeMapping TypeName="RoadTex_MVCModel.tblRegion">
+        <MappingFragment StoreEntitySet="tblRegion">
+          <ScalarProperty Name="region_id" ColumnName="region_id" />
+          <ScalarProperty Name="region_name" ColumnName="region_name" />
+          <ScalarProperty Name="region_description" ColumnName="region_description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRoles">
+      <EntityTypeMapping TypeName="RoadTex_MVCModel.tblRole">
+        <MappingFragment StoreEntitySet="tblRole">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRole_Permission">
+      <EntityTypeMapping TypeName="RoadTex_MVCModel.tblRole_Permission">
+        <MappingFragment StoreEntitySet="tblRole_Permission">
+          <ScalarProperty Name="role_permission_id" ColumnName="role_permission_id" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="perm_id" ColumnName="perm_id" />
+          <ScalarProperty Name="edit_perm" ColumnName="edit_perm" />
+          <ScalarProperty Name="view_perm" ColumnName="view_perm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblStates">
+      <EntityTypeMapping TypeName="RoadTex_MVCModel.tblState">
+        <MappingFragment StoreEntitySet="tblState">
+          <ScalarProperty Name="state_id" ColumnName="state_id" />
+          <ScalarProperty Name="state_name" ColumnName="state_name" />
+          <ScalarProperty Name="region_id" ColumnName="region_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblUsers">
+      <EntityTypeMapping TypeName="RoadTex_MVCModel.tblUser">
+        <MappingFragment StoreEntitySet="tblUsers">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="user_password" ColumnName="user_password" />
+          <ScalarProperty Name="e_mail" ColumnName="e_mail" />
+          <ScalarProperty Name="user_role_id" ColumnName="user_role_id" />
+          <ScalarProperty Name="isSalesRep" ColumnName="isSalesRep" />
+          <ScalarProperty Name="isPreparer" ColumnName="isPreparer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_AddNewRole" FunctionName="RoadTex_MVCModel.Store.sp_AddNewRole" />
+    <FunctionImportMapping FunctionImportName="sp_AddRegion" FunctionName="RoadTex_MVCModel.Store.sp_AddRegion" />
+    <FunctionImportMapping FunctionImportName="sp_AddState" FunctionName="RoadTex_MVCModel.Store.sp_AddState" />
+    <FunctionImportMapping FunctionImportName="sp_cm_create_customers" FunctionName="RoadTex_MVCModel.Store.sp_cm_create_customers" />
+    <FunctionImportMapping FunctionImportName="sp_cm_delete_customers" FunctionName="RoadTex_MVCModel.Store.sp_cm_delete_customers" />
+    <FunctionImportMapping FunctionImportName="sp_cm_select_customers" FunctionName="RoadTex_MVCModel.Store.sp_cm_select_customers" />
+    <FunctionImportMapping FunctionImportName="sp_cm_update_customers" FunctionName="RoadTex_MVCModel.Store.sp_cm_update_customers" />
+    <FunctionImportMapping FunctionImportName="sp_DeleteRole" FunctionName="RoadTex_MVCModel.Store.sp_DeleteRole" />
+    <FunctionImportMapping FunctionImportName="sp_DeleteState" FunctionName="RoadTex_MVCModel.Store.sp_DeleteState" />
+    <FunctionImportMapping FunctionImportName="sp_p_create_permission" FunctionName="RoadTex_MVCModel.Store.sp_p_create_permission" />
+    <FunctionImportMapping FunctionImportName="sp_ResetPassword" FunctionName="RoadTex_MVCModel.Store.sp_ResetPassword" />
+    <FunctionImportMapping FunctionImportName="sp_rp_create_roleperm" FunctionName="RoadTex_MVCModel.Store.sp_rp_create_roleperm" />
+    <FunctionImportMapping FunctionImportName="sp_rp_select_roleperm" FunctionName="RoadTex_MVCModel.Store.sp_rp_select_roleperm">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RoadTex_MVCModel.sp_rp_select_roleperm_Result">
+          <ScalarProperty Name="edit_perm" ColumnName="edit_perm" />
+          <ScalarProperty Name="view_perm" ColumnName="view_perm" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_um_create_user" FunctionName="RoadTex_MVCModel.Store.sp_um_create_user" />
+    <FunctionImportMapping FunctionImportName="sp_um_delete_user" FunctionName="RoadTex_MVCModel.Store.sp_um_delete_user" />
+    <FunctionImportMapping FunctionImportName="sp_um_select_user" FunctionName="RoadTex_MVCModel.Store.sp_um_select_user">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RoadTex_MVCModel.sp_um_select_user_Result">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="First_Name" ColumnName="First Name" />
+          <ScalarProperty Name="Last_Name" ColumnName="Last Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Is_Sales_Rep" ColumnName="Is Sales Rep" />
+          <ScalarProperty Name="Is_Preparer" ColumnName="Is Preparer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_um_update_user" FunctionName="RoadTex_MVCModel.Store.sp_um_update_user" />
+    <FunctionImportMapping FunctionImportName="sp_UpdateRole" FunctionName="RoadTex_MVCModel.Store.sp_UpdateRole" />
+    <FunctionImportMapping FunctionImportName="sp_UpdateState" FunctionName="RoadTex_MVCModel.Store.sp_UpdateState" />
+  </EntityContainerMapping>
+</Mapping>

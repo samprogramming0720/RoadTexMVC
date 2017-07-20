@@ -1,0 +1,59 @@
+﻿@model RoadTex_MVC_Project.Models.UserManagement_Model.UMViewModel
+@using (Html.BeginForm("Edit", "UserManagement", FormMethod.Post))
+{
+    <div>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    </div>
+    <fieldset>
+        <legend>Edit</legend>
+        <div>
+            @Html.LabelFor(e=>e.Userinfo.FirstName)
+        </div>
+        <div>
+            @Html.EditorFor(e=>e.Userinfo.FirstName)
+        </div>
+        <div>
+            @Html.LabelFor(e=>e.Userinfo.LastName)
+        </div>
+        <div>
+            @Html.EditorFor(e=>e.Userinfo.LastName)
+        </div>
+        <div>
+            @Html.LabelFor(e=>e.Userinfo.Email)
+        </div>
+        <div>
+            @Html.EditorFor(e=>e.Userinfo.Email)
+        </div>
+        <div>
+            @Html.LabelFor(e=>e.Userinfo.Role)
+        </div>
+        <div>
+            @Html.DropDownListFor(e => e.Userinfo.Role, 
+           new SelectList(Model.RolesList, "Value", "Text"))
+        </div>
+        <div>
+            @Html.LabelFor(e=>e.Userinfo.IsSalesRep)
+        </div>
+        <div>
+            @Html.CheckBoxFor(e=>e.Userinfo.IsSalesRep)
+        </div>
+        <div>
+            @Html.LabelFor(e => e.Userinfo.IsPreparer)
+        </div>
+        <div>
+            @Html.CheckBoxFor(e => e.Userinfo.IsPreparer)
+        </div>
+        <div>
+            <input type="Submit" value="Update" />
+        </div>
+        @if (TempData["Message"] != null)
+        {
+            <div>
+                <span>@TempData["Message"]</span>
+            </div>
+        }
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Close", "UserManagement")
+</div>
